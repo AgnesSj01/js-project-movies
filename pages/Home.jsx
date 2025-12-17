@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import MovieSlider from "../src/components/MovieSlider";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -25,15 +26,8 @@ const Home = () => {
   }, []);
 
   return (
-    <main>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>
-            <p>{movie.title}</p>
-            <Link to={`/movies/${movie.id}`}>Öppna</Link>
-          </li>
-        ))}
-      </ul>
+    <main className="bg-black">
+      <MovieSlider movies={movies} />
     </main>
   );
 };
