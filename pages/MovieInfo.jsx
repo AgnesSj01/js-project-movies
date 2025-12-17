@@ -25,30 +25,47 @@ const MovieInfo = () => {
 
   return (
     <main
+      className="min-h-screen bg-cover bg-center"
       style={{
-        minHeight: "100vh",
         backgroundImage: movie.backdrop_path
           ? `url(${BACKDROP_URL}${movie.backdrop_path})`
           : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        // backgroundSize: "cover",
+        //backgroundPosition: "center",
       }}
+
+      // https://tailwindcss.com/docs/min-height
     >
+      <Link to="/">Go back</Link>
+      {/* {movie.backdrop_path && (
+        <img
+          src={`${BACKDROP_URL}${movie.backdrop_path}`}
+          alt={movie.title}
+          // style={{ width: "200px" }}
+          className="w-full h-full absolute z-0 left-0 right-0 top-0 bottom-0 cover"
+        />
+      )} */}
       {movie.poster_path && (
         <img
           src={`${IMG_URL}${movie.poster_path}`}
           alt={movie.title}
-          style={{ width: "200px" }}
+          // style={{ width: "200px" }}
+          className="w-[200px]"
+          // https://tailwindcss.com/docs/width
         />
       )}
-      <p style={{ color: "white" }}>{movie.original_title}</p>
-      <p style={{ color: "white" }}>
+      {/* Title */}
+      <p className="text-white text-xl font-bold">{movie.original_title}</p>
+
+      {/* Rating */}
+      <p className="text-white mt-2">
         <strong>Rating:</strong> {movie.vote_average}
       </p>
-      <p style={{ color: "white" }}>
+
+      {/* Description */}
+      <p className="text-white mt-2 max-w-xl">
         <strong>Description:</strong> {movie.overview}
       </p>
-      <Link to="/">Go back</Link>
     </main>
   );
 };
