@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -30,11 +30,10 @@ const Home = () => {
       <Link to="/movies">Movies</Link>
       <Link to="/movies/1">Movie 1</Link>
       <ul>
-        {movies.map((movie, i) => (
-          <li key={i}>
+        {movies.map((movie) => (
+          <li key={movie.id}>
             <p>{movie.title}</p>
-            <Link to={`/movies/${i}`}>Link test</Link>
-            <Link to={`/movies/${movie.id}`}>Link 2</Link>
+            <Link to={`/movies/${movie.id}`}>Öppna</Link>
           </li>
         ))}
       </ul>

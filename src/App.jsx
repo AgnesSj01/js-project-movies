@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import MovieInfo from "../pages/MovieInfo";
 
@@ -7,9 +7,9 @@ export const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<MovieInfo />} />
-        <Route path="/movies/:movie" element={<MovieInfo />} />
+        <Route path="/movies/:id" element={<MovieInfo />} />
       </Routes>
     </BrowserRouter>
   );
 };
+//Bytte till id, tydligen någon standard
