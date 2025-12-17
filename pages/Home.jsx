@@ -26,9 +26,6 @@ const Home = () => {
 
   return (
     <main>
-      <h1>HEJ</h1>
-      <Link to="/movies">Movies</Link>
-      <Link to="/movies/1">Movie 1</Link>
       <ul>
         {movies.map((movie) => (
           <li key={movie.id}>

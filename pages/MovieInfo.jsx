@@ -34,7 +34,6 @@ const MovieInfo = () => {
         backgroundPosition: "center",
       }}
     >
-      <h1>Movie detail</h1>
       {movie.poster_path && (
         <img
           src={`${IMG_URL}${movie.poster_path}`}
@@ -42,6 +41,7 @@ const MovieInfo = () => {
           style={{ width: "200px" }}
         />
       )}
+      <p style={{ color: "white" }}>{movie.original_title}</p>
       <p style={{ color: "white" }}>
         <strong>Rating:</strong> {movie.vote_average}
       </p>
