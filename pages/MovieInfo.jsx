@@ -82,7 +82,7 @@ const MovieInfo = () => {
                 src={`${IMG_URL}${movie.poster_path}`}
                 alt={movie.title}
                 // style={{ width: "200px" }}
-                className="w-full max-w-[260px] md:max-w-[350px] border-4 border-white"
+                className="w-full max-w-[260px] md:max-w-[350px] aspect-[2/3] object-cover border-4 border-white"
                 // https://tailwindcss.com/docs/width
               />
             )}
