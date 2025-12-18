@@ -92,7 +92,7 @@ const MovieInfo = () => {
             )}
 
             {/* TEXT (höger) */}
-            <div className="text-white max-w-xl">
+            <div className="text-white max-w-xl min-h-[260px]">
               {/* TITLE + RATING */}
               <div className="min-h-[72px] md:min-h-[90px] mb-3">
                 <div className="flex flex-col gap-2">
@@ -112,7 +112,7 @@ const MovieInfo = () => {
               </div>
 
               {/* Description */}
-              <p className="text-sm md:text-lg leading-relaxed">
+              <p className="text-sm md:text-lg leading-relaxed min-h-[120px]">
                 {movie.overview}
               </p>
             </div>
