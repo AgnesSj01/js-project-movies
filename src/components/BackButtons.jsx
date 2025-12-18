@@ -9,7 +9,6 @@ const BackButton = ({ to = "/", label = "Movies" }) => {
                  text-white font-bold text-lg md:text-xl
                  group"
     >
-      {/* Vit cirkel */}
       <span
         className="flex items-center justify-center
                        w-7 h-7 md:w-9 md:h-9
@@ -20,8 +19,6 @@ const BackButton = ({ to = "/", label = "Movies" }) => {
           strokeWidth={5}
         />
       </span>
-
-      {/* Text */}
       <span className="transition-transform duration-200 group-hover:translate-x-2">
         {label}
       </span>
