@@ -76,31 +76,31 @@ const MovieInfo = () => {
         </Link>
 
         {/* Content */}
-        <div className="flex-1 flex items-start md:items-center lg:items-end pb-12 md:pb-16 px-4 sm:px-8 md:px-16">
-          <div className="flex flex-col md:flex-row items-center md:items-end gap-6 md:gap-10">
+        <div className="flex-1 flex justify-center lg:justify-start items-start md:items-center lg:items-end pb-12 md:pb-16 px-4 sm:px-8 md:px-8 lg:px-16">
+          <div className="flex flex-col items-center lg:flex-row lg:items-end gap-6 lg:gap-10">
             {/*POSTER*/}
             {movie.poster_path && (
-              <img
-                src={`${IMG_URL}${movie.poster_path}`}
-                alt={movie.title}
-                width="350"
-                height="525"
-                loading="eager"
-                fetchPriority="high"
-                className="w-full max-w-[260px] md:max-w-[350px] aspect-[2/3] object-cover border-4 border-white"
-              />
+              <div className="w-full max-w-[260px] md:w-[350px] md:max-w-none">
+                <img
+                  src={`${IMG_URL}${movie.poster_path}`}
+                  alt={movie.title}
+                  width="350"
+                  height="525"
+                  loading="eager"
+                  fetchPriority="high"
+                  className="w-full aspect-[2/3] object-cover border-4 border-white"
+                />
+              </div>
             )}
-
             {/* TEXT (höger) */}
-            <div className="text-white max-w-xl min-h-[260px]">
-              {/* TITLE + RATING */}
-              <div className="min-h-[72px] md:min-h-[90px] mb-3">
-                <div className="flex flex-col gap-2">
-                  <h1 className="text-white text-xl md:text-3xl font-bold leading-tight">
+            <div className="text-white max-w-sm md:max-w-md lg:max-w-xl min-h-[160px] lg:min-h-[220px] text-center lg:text-left mx-auto lg:mx-0">
+              <div className="min-h-[72px] md:min-h-[90px] mb-1">
+                <div className="flex items-center gap-3 justify-center lg:justify-start">
+                  <h1 className="text-white text-xl md:text-3xl font-bold leading-tight max-w-[18ch]">
                     {movie.original_title}
                   </h1>
 
-                  <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md w-fit">
+                  <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md">
                     <span className="text-yellow-600 text-xl md:text-3xl">
                       ★
                     </span>
@@ -112,7 +112,7 @@ const MovieInfo = () => {
               </div>
 
               {/* Description */}
-              <p className="text-sm md:text-lg leading-relaxed min-h-[120px]">
+              <p className="text-sm md:text-lg leading-relaxed min-h-[80px]">
                 {movie.overview}
               </p>
             </div>
