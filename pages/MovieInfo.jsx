@@ -1,15 +1,20 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 const API_KEY = "f4e07b8c3bee08478eb1ddafeed7e326";
-const IMG_URL = "https://image.tmdb.org/t/p/w500";
+const IMG_URL = "https://image.tmdb.org/t/p/w342";
 const BACKDROP_URL = "https://image.tmdb.org/t/p/original";
 
 const MovieInfo = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+
+  const getBackdropSrc = (path) => {
+    if (!path) return "";
+    const size = window.innerWidth < 768 ? "w780" : "w1280";
+    return `https://image.tmdb.org/t/p/${size}${path}`;
+  };
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -27,16 +32,21 @@ const MovieInfo = () => {
 
   return (
     //https://tailwindcss.com/docs/min-height
-    <main
-      className="min-h-screen bg-cover bg-center relative"
-      style={{
-        backgroundImage: movie.backdrop_path
-          ? `url(${BACKDROP_URL}${movie.backdrop_path})`
-          : "none",
-      }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Backdrop as IMG (snabbare LCP än CSS background) */}
+      {movie.backdrop_path && (
+        <img
+          src={getBackdropSrc(movie.backdrop_path)}
+          alt=""
+          width="1280"
+          height="720"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+        />
+      )}
 
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
       <div className="relative z-10 min-h-screen flex flex-col">
         <Link
           to="/"
@@ -73,32 +83,36 @@ const MovieInfo = () => {
               <img
                 src={`${IMG_URL}${movie.poster_path}`}
                 alt={movie.title}
-                // style={{ width: "200px" }}
-                className="w-full max-w-[260px] md:max-w-[350px] border-4 border-white"
-                // https://tailwindcss.com/docs/width
+                width="350"
+                height="525"
+                loading="eager"
+                fetchPriority="high"
+                className="w-full max-w-[260px] md:max-w-[350px] aspect-[2/3] object-cover border-4 border-white"
               />
             )}
 
             {/* TEXT (höger) */}
-            <div className="text-white max-w-xl">
-              {/*TITLE */}
-              <div className="flex items-center justify-between md:justify-start gap-4 mb-3">
-                <h1 className="text-white text-xl md:text-3xl font-bold">
-                  {movie.original_title}
-                </h1>
+            <div className="text-white max-w-xl min-h-[260px]">
+              {/* TITLE + RATING */}
+              <div className="min-h-[72px] md:min-h-[90px] mb-3">
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-white text-xl md:text-3xl font-bold leading-tight">
+                    {movie.original_title}
+                  </h1>
 
-                {/* Rating */}
-                {/* toFixed(1) för att avrunda uppåt 1 decimal*/}
-                <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md">
-                  <span className="text-yellow-600 text-xl md:text-3xl">★</span>
-                  <span className="text-xl md:text-3xl font-bold">
-                    {movie.vote_average.toFixed(1)}
+                  <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md w-fit">
+                    <span className="text-yellow-600 text-xl md:text-3xl">
+                      ★
+                    </span>
+                    <span className="text-xl md:text-3xl font-bold">
+                      {movie.vote_average.toFixed(1)}
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
 
               {/* Description */}
-              <p className="text-sm md:text-lg leading-relaxed">
+              <p className="text-sm md:text-lg leading-relaxed min-h-[120px]">
                 {movie.overview}
               </p>
             </div>
