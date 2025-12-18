@@ -92,6 +92,7 @@ const MovieSlider = ({ movies }) => {
 
           <button 
             onClick={prevSlide}
+            aria-label="Previous movie"
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/20 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 flex items-center justify-center cursor-pointer"
           >
             <ChevronLeftIcon
@@ -102,6 +103,7 @@ const MovieSlider = ({ movies }) => {
 
           <button 
             onClick={nextSlide}
+            aria-label="Next movie"
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/20 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white/30 flex items-center justify-center cursor-pointer"
           >
             <ChevronRightIcon
