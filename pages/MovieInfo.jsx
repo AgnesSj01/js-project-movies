@@ -1,14 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import NotFound from "../pages/NotFound";
 
 const API_KEY = "f4e07b8c3bee08478eb1ddafeed7e326";
 const IMG_URL = "https://image.tmdb.org/t/p/w342";
-const BACKDROP_URL = "https://image.tmdb.org/t/p/original";
 
 const MovieInfo = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(false);
 
   const getBackdropSrc = (path) => {
     if (!path) return "";
@@ -18,14 +19,31 @@ const MovieInfo = () => {
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
-      );
-      const result = await response.json();
-      setMovie(result);
+      try {
+        setError(false);
+        setMovie(null);
+
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`
+        );
+
+        if (!response.ok) {
+          setError(true);
+          return;
+        }
+
+        const result = await response.json();
+        setMovie(result);
+      } catch {
+        setError(true);
+      }
     };
+
     fetchMovie();
   }, [id]);
+  if (error) {
+    return <NotFound />;
+  }
   if (!movie) {
     return <p>Loading...</p>;
   }
@@ -76,7 +94,7 @@ const MovieInfo = () => {
         </Link>
 
         {/* Content */}
-        <div className="flex-1 flex justify-center lg:justify-start items-start md:items-center lg:items-end pb-12 md:pb-16 px-4 sm:px-8 md:px-8 lg:px-16">
+        <div className="flex-1 flex justify-center lg:justify-start items-start lg:items-end pb-12 md:pb-16 px-4 sm:px-8 md:px-8 lg:px-16">
           <div className="flex flex-col items-center lg:flex-row lg:items-end gap-6 lg:gap-10">
             {/*POSTER*/}
             {movie.poster_path && (
@@ -93,8 +111,8 @@ const MovieInfo = () => {
               </div>
             )}
             {/* TEXT (höger) */}
-            <div className="text-white max-w-sm md:max-w-md lg:max-w-xl min-h-[160px] lg:min-h-[220px] text-center lg:text-left mx-auto lg:mx-0">
-              <div className="min-h-[72px] md:min-h-[90px] mb-1">
+            <div className="text-white max-w-sm md:max-w-lg lg:max-w-xl min-h-[120px] lg:min-h-[200px] text-center lg:text-left mx-auto lg:mx-0">
+              <div className="min-h-[56px] md:min-h-[72px] mb-1">
                 <div className="flex items-center gap-3 justify-center lg:justify-start">
                   <h1 className="text-white text-xl md:text-3xl font-bold leading-tight max-w-[18ch]">
                     {movie.original_title}
@@ -112,7 +130,7 @@ const MovieInfo = () => {
               </div>
 
               {/* Description */}
-              <p className="text-sm md:text-lg leading-relaxed min-h-[80px]">
+              <p className="text-sm md:text-lg leading-relaxed min-h-[80px] max-w-none">
                 {movie.overview}
               </p>
             </div>
