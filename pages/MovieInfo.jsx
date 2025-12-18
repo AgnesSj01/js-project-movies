@@ -38,6 +38,8 @@ const MovieInfo = () => {
         <img
           src={getBackdropSrc(movie.backdrop_path)}
           alt=""
+          width="1280"
+          height="720"
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           fetchPriority="high"
@@ -81,28 +83,32 @@ const MovieInfo = () => {
               <img
                 src={`${IMG_URL}${movie.poster_path}`}
                 alt={movie.title}
-                // style={{ width: "200px" }}
+                width="350"
+                height="525"
+                loading="eager"
+                fetchPriority="high"
                 className="w-full max-w-[260px] md:max-w-[350px] aspect-[2/3] object-cover border-4 border-white"
-                // https://tailwindcss.com/docs/width
               />
             )}
 
             {/* TEXT (höger) */}
             <div className="text-white max-w-xl">
-              {/*TITLE */}
-              <div className="flex items-center justify-between md:justify-start gap-4 mb-3">
-                <h1 className="text-white text-xl md:text-3xl font-bold">
-                  {movie.original_title}
-                </h1>
+              {/* TITLE + RATING */}
+              <div className="min-h-[72px] md:min-h-[90px] mb-3">
+                <div className="flex flex-col gap-2">
+                  <h1 className="text-white text-xl md:text-3xl font-bold leading-tight">
+                    {movie.original_title}
+                  </h1>
 
-                {/* Rating */}
-                {/* toFixed(1) för att avrunda uppåt 1 decimal*/}
-                <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md">
-                  <span className="text-yellow-600 text-xl md:text-3xl">★</span>
-                  <span className="text-xl md:text-3xl font-bold">
-                    {movie.vote_average.toFixed(1)}
+                  <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md w-fit">
+                    <span className="text-yellow-600 text-xl md:text-3xl">
+                      ★
+                    </span>
+                    <span className="text-xl md:text-3xl font-bold">
+                      {movie.vote_average.toFixed(1)}
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
 
               {/* Description */}
