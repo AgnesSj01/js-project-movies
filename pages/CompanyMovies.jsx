@@ -6,52 +6,51 @@ import { useLocation } from "react-router-dom";
 const API_KEY = "f4e07b8c3bee08478eb1ddafeed7e326";
 const IMG_URL = "https://image.tmdb.org/t/p/w342";
 
-const GenreMovies = () => {
-  const { genreId } = useParams();
+const CompanyMovies = () => {
+  const { companyId } = useParams();
+  const [company, setCompany] = useState(null);
   const [movies, setMovies] = useState([]);
-  const [genreName, setGenreName] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const location = useLocation();
   const from = location.state?.from || "/";
 
   useEffect(() => {
-    const fetchGenreMovies = async () => {
+    const run = async () => {
       try {
         setLoading(true);
         setError(false);
 
-        // 1) Hämta genre-namn
-        const genreRes = await fetch(
-          `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`
+        // 1) Company details
+        const companyRes = await fetch(
+          `https://api.themoviedb.org/3/company/${companyId}?api_key=${API_KEY}`
         );
-        const genreData = await genreRes.json();
-        const found = genreData.genres?.find(
-          (g) => String(g.id) === String(genreId)
-        );
-        setGenreName(found?.name ?? "");
-
-        // 2) Hämta filmer i genren
-        const res = await fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=${genreId}&sort_by=popularity.desc`
-        );
-
-        if (!res.ok) {
+        if (!companyRes.ok) {
           setError(true);
           return;
         }
+        const companyData = await companyRes.json();
+        setCompany(companyData);
 
-        const data = await res.json();
-        setMovies(data.results ?? []);
-      } catch (e) {
+        // 2) Movies by company (discover)
+        const moviesRes = await fetch(
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&with_companies=${companyId}&sort_by=popularity.desc`
+        );
+        if (!moviesRes.ok) {
+          setError(true);
+          return;
+        }
+        const moviesData = await moviesRes.json();
+        setMovies(moviesData.results ?? []);
+      } catch {
         setError(true);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchGenreMovies();
-  }, [genreId]);
+    run();
+  }, [companyId]);
 
   if (loading) return <p className="p-6">Loading...</p>;
   if (error) return <p className="p-6">Something went wrong.</p>;
@@ -62,7 +61,7 @@ const GenreMovies = () => {
         <BackButton to={from} label="Back to movie" />
 
         <h1 className="text-2xl font-bold mb-3">
-          {genreName ? `Genre: ${genreName}` : `Genre ${genreId}`}
+          {company?.name ? `Company: ${company.name}` : `Company ${companyId}`}
         </h1>
       </div>
 
@@ -89,4 +88,4 @@ const GenreMovies = () => {
   );
 };
 
-export default GenreMovies;
+export default CompanyMovies;

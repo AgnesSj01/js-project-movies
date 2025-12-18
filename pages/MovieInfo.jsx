@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NotFound from "../pages/NotFound";
 import BackButton from "../src/components/BackButtons";
@@ -12,6 +12,7 @@ const MovieInfo = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(false);
+  const location = useLocation();
 
   const getBackdropSrc = (path) => {
     if (!path) return "";
@@ -105,7 +106,12 @@ const MovieInfo = () => {
               {/* Genres */}
               <TagSection title="Genre">
                 {movie.genres.map((g) => (
-                  <Link key={g.id} to={`/genres/${g.id}`}>
+                  <Link
+                    key={g.id}
+                    to={`/genres/${g.id}`}
+                    state={{ from: location.pathname }}
+                    className="px-3 py-1.5 rounded-full bg-white/80 text-black text-xs font-medium hover:bg-white"
+                  >
                     {g.name}
                   </Link>
                 ))}
@@ -113,16 +119,28 @@ const MovieInfo = () => {
 
               <TagSection title="Production companies">
                 {movie.production_companies.map((c) => (
-                  <div key={c.id}>
+                  <Link
+                    key={c.id}
+                    to={`/companies/${c.id}`}
+                    state={{ from: location.pathname }}
+                    className="inline-flex items-center gap-2
+                 px-3 py-1.5
+                 rounded-full
+                 bg-white/80 text-black
+                 text-xs font-medium
+                 hover:bg-white"
+                    title={c.name}
+                  >
                     {c.logo_path && (
                       <img
                         src={`https://image.tmdb.org/t/p/w92${c.logo_path}`}
                         alt={c.name}
                         className="h-4 object-contain"
+                        loading="lazy"
                       />
                     )}
-                    <span>{c.name}</span>
-                  </div>
+                    <span className="whitespace-nowrap">{c.name}</span>
+                  </Link>
                 ))}
               </TagSection>
             </div>
