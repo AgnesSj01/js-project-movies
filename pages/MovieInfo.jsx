@@ -1,15 +1,20 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 const API_KEY = "f4e07b8c3bee08478eb1ddafeed7e326";
-const IMG_URL = "https://image.tmdb.org/t/p/w500";
+const IMG_URL = "https://image.tmdb.org/t/p/w342";
 const BACKDROP_URL = "https://image.tmdb.org/t/p/original";
 
 const MovieInfo = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+
+  const getBackdropSrc = (path) => {
+    if (!path) return "";
+    const size = window.innerWidth < 768 ? "w780" : "w1280";
+    return `https://image.tmdb.org/t/p/${size}${path}`;
+  };
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -27,16 +32,19 @@ const MovieInfo = () => {
 
   return (
     //https://tailwindcss.com/docs/min-height
-    <main
-      className="min-h-screen bg-cover bg-center relative"
-      style={{
-        backgroundImage: movie.backdrop_path
-          ? `url(${BACKDROP_URL}${movie.backdrop_path})`
-          : "none",
-      }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
+    <main className="min-h-screen relative overflow-hidden">
+      {/* Backdrop as IMG (snabbare LCP än CSS background) */}
+      {movie.backdrop_path && (
+        <img
+          src={getBackdropSrc(movie.backdrop_path)}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+        />
+      )}
 
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
       <div className="relative z-10 min-h-screen flex flex-col">
         <Link
           to="/"
