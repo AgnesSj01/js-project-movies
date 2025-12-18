@@ -1,7 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import NotFound from "../pages/NotFound";
+import BackButton from "../src/components/BackButtons";
+import RatingBadge from "../src/components/RatingBadge";
+import TagSection from "../src/components/TagSection";
 
 const API_KEY = "f4e07b8c3bee08478eb1ddafeed7e326";
 const IMG_URL = "https://image.tmdb.org/t/p/w342";
@@ -49,9 +51,7 @@ const MovieInfo = () => {
   }
 
   return (
-    //https://tailwindcss.com/docs/min-height
     <main className="min-h-screen relative overflow-hidden">
-      {/* Backdrop as IMG (snabbare LCP än CSS background) */}
       {movie.backdrop_path && (
         <img
           src={getBackdropSrc(movie.backdrop_path)}
@@ -66,32 +66,9 @@ const MovieInfo = () => {
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/10" />
       <div className="relative z-10 min-h-screen flex flex-col">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-3
-             px-4 md:px-6
-             mt-6 sm:mt-8 md:mt-6
-             mb-6 md:mb-10
-             text-white font-bold text-lg md:text-xl
-             group"
-        >
-          {/* Mindre vit cirkel */}
-          <span
-            className="flex items-center justify-center
-                 w-7 h-7 md:w-9 md:h-9
-                 rounded-full bg-white/90"
-          >
-            <ChevronLeftIcon
-              className="w-5 h-5 md:w-6 md:h-6 text-black"
-              strokeWidth={5}
-            />
-          </span>
-
-          {/* Texten som glider */}
-          <span className="transition-transform duration-200 group-hover:translate-x-2">
-            Movies
-          </span>
-        </Link>
+        <div className="px-4 md:px-6 mt-6 sm:mt-8 md:mt-6 mb-6 md:mb-10">
+          <BackButton />
+        </div>
 
         {/* Content */}
         <div className="flex-1 flex justify-center lg:justify-start items-start lg:items-end pb-12 md:pb-16 px-4 sm:px-8 md:px-8 lg:px-16">
@@ -110,7 +87,7 @@ const MovieInfo = () => {
                 />
               </div>
             )}
-            {/* TEXT (höger) */}
+            {/* TEXT */}
             <div className="text-white max-w-sm md:max-w-lg lg:max-w-xl min-h-[120px] lg:min-h-[200px] text-center lg:text-left mx-auto lg:mx-0">
               <div className="min-h-[56px] md:min-h-[72px] mb-1">
                 <div className="flex items-center gap-3 justify-center lg:justify-start">
@@ -118,21 +95,36 @@ const MovieInfo = () => {
                     {movie.original_title}
                   </h1>
 
-                  <span className="inline-flex items-center gap-1.5 bg-white/95 text-black px-2 py-1 rounded-lg shadow-md">
-                    <span className="text-yellow-600 text-xl md:text-3xl">
-                      ★
-                    </span>
-                    <span className="text-xl md:text-3xl font-bold">
-                      {movie.vote_average.toFixed(1)}
-                    </span>
-                  </span>
+                  <RatingBadge rating={movie.vote_average} />
                 </div>
               </div>
-
               {/* Description */}
               <p className="text-sm md:text-lg leading-relaxed min-h-[80px] max-w-none">
                 {movie.overview}
               </p>
+              {/* Genres */}
+              <TagSection title="Genre">
+                {movie.genres.map((g) => (
+                  <Link key={g.id} to={`/genres/${g.id}`}>
+                    {g.name}
+                  </Link>
+                ))}
+              </TagSection>
+
+              <TagSection title="Production companies">
+                {movie.production_companies.map((c) => (
+                  <div key={c.id}>
+                    {c.logo_path && (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w92${c.logo_path}`}
+                        alt={c.name}
+                        className="h-4 object-contain"
+                      />
+                    )}
+                    <span>{c.name}</span>
+                  </div>
+                ))}
+              </TagSection>
             </div>
           </div>
         </div>
@@ -140,5 +132,4 @@ const MovieInfo = () => {
     </main>
   );
 };
-
 export default MovieInfo;
