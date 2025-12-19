@@ -57,11 +57,21 @@ const CompanyMovies = () => {
 
   return (
     <main className="min-h-screen p-6">
-      <div className="px-4 sm:px-8 md:px-8 lg:px-16 pt-4 mb-2">
-        <BackButton to={from} label="Back to movie" />
-
-        <h1 className="text-2xl font-bold mb-3">
-          {company?.name ? `Company: ${company.name}` : `Company ${companyId}`}
+      <div className="px-1 sm:px-8 md:px-8 lg:px-16 pt-1 lg:mb-10">
+        <div className="mb-4 sm:mb-3">
+          <BackButton to={from} label="Back to movie" />
+        </div>
+        <h1
+          className=" text-white text-white
+  text-center
+  text-lg
+  sm:text-2xl
+  font-bold
+  mb-6 sm:mb-4 md:mb-8-center text-2xl font-bold mb-6 sm:mb-4 md:mb-8"
+        >
+          {company?.name
+            ? `Movies from ${company.name}`
+            : `Company ${companyId}`}
         </h1>
       </div>
 
