@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
-const BackButton = ({ to = "/", label = "Movies" }) => {
+// Presentational back button component
+// Navigation logic is handled by the parent page
+const BackButton = ({ to, label }) => {
   return (
+    // React Router link for client-side navigation
     <Link
       to={to}
       className="inline-flex items-center gap-3
                  text-white font-bold text-lg md:text-xl
                  group"
     >
+      {/* Icon container */}
       <span
         className="flex items-center justify-center
                        w-7 h-7 md:w-9 md:h-9
@@ -19,6 +23,8 @@ const BackButton = ({ to = "/", label = "Movies" }) => {
           strokeWidth={5}
         />
       </span>
+
+      {/* Button label with subtle hover animation */}
       <span className="transition-transform duration-200 group-hover:translate-x-2">
         {label}
       </span>

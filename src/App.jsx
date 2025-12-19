@@ -5,8 +5,10 @@ import NotFound from "../pages/NotFound";
 import GenreMovies from "../pages/GenreMovies";
 import CompanyMovies from "../pages/CompanyMovies";
 
+// Main application component responsible for routing
 export const App = () => {
   return (
+    // BrowserRouter enables client-side routing using the HTML5 history API
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />

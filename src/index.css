@@ -35,3 +35,8 @@ body {
   width: 0;
   animation: typing 2s steps(10) forwards, blink 0.7s step-end infinite;
 }
+
+html {
+  -webkit-text-size-adjust: 100%; /* Safari/iOS */
+  text-size-adjust: 100%; /* Standard */
+}
